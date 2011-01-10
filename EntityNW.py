@@ -137,9 +137,39 @@ class EntityNW(networkx.classes.DiGraph):
                self.remove_edge(u,v)
                raise networkx.NetworkXUnfeasible("Graph contains a cycle! DAG is acyclic! Edge " + u + "-" + v +" cannot be added.")
 
-   def lcs(nodes):
-       """ Find and return the least common subsumer node"""
-       pass
+   def lcs(self, node1, node2):
+      """ Find and return the least common subsumer node"""
+      ## run_check: helper function for finding the lcs
+      def run_check(set1, set2):
+         for e1 in set1:
+            for e2 in set2:
+               if e1 == e2:
+                  return e1
+         return None
+
+      ##  combine predecessor keys
+      def combine_preds(my_set):
+         combined_list = []
+         for e in my_set:
+            combined_list += self.pred[e].keys()
+         return combined_list
+            
+         
+      
+      ## make node1 and node2 a list of nodes for base case.
+      if (type(node1) and type(node2))!= list:
+         node1 = [node1]
+         node2 = [node2]
+         
+      predecessor_list = (node1, node2)
+      common = run_check(predecessor_list[0], predecessor_list[1])
+      if (common != None):
+         return common
+      else:
+         return self.lcs(combine_preds(node1) + node1 ,combine_preds(node2) + node2)         
+
+        
+       
 
    def distance_metric(node1, node2):
        """Compute Distance Metric between two nodes in the network"""
