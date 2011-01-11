@@ -4,8 +4,10 @@ import networkx
 class EntityNW(networkx.classes.DiGraph):
 
       
-   def add_node(self, n, weight, attr_dict=None, **attr):
+   def add_node(self, n, weight=1, attr_dict=None, **attr):
       'adds a node n to the graph with weight weight'
+      if attr_dict == None:
+          attr_dict = {}
       super(EntityNW, self).add_node(n, weight = weight)
 
    def add_nodes_from(self, nodes, weights):
@@ -179,5 +181,8 @@ class EntityNW(networkx.classes.DiGraph):
 
   
         
-            
-       
+if __name__ == "__main__":
+    
+   g =  EntityNW()
+   g.add_node("dog")
+
