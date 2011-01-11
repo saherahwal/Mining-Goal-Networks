@@ -1,6 +1,6 @@
 import networkx
 
-##TODO write function that checks weights(number of items is correct)
+
 class EntityNW(networkx.classes.DiGraph):
 
       
@@ -137,7 +137,7 @@ class EntityNW(networkx.classes.DiGraph):
                self.remove_edge(u,v)
                raise networkx.NetworkXUnfeasible("Graph contains a cycle! DAG is acyclic! Edge " + u + "-" + v +" cannot be added.")
 
-   def lcs(self, node1, node2):
+   def lcs(self, node1, node2): ## find least common subsumer
       """ Find and return the least common subsumer node"""
       ## run_check: helper function for finding the lcs
       def run_check(set1, set2):
@@ -153,8 +153,7 @@ class EntityNW(networkx.classes.DiGraph):
          for e in my_set:
             combined_list += self.pred[e].keys()
          return combined_list
-            
-         
+              
       
       ## make node1 and node2 a list of nodes for base case.
       if (type(node1) and type(node2))!= list:
@@ -167,8 +166,7 @@ class EntityNW(networkx.classes.DiGraph):
          return common
       else:
          return self.lcs(combine_preds(node1) + node1 ,combine_preds(node2) + node2)         
-
-        
+       
        
 
    def distance_metric(node1, node2):
