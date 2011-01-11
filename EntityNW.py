@@ -8,7 +8,7 @@ class EntityNW(networkx.classes.DiGraph):
       'adds a node n to the graph with weight weight'
       if attr_dict == None:
           attr_dict = {}
-      super(EntityNW, self).add_node(n, weight = weight)
+      super(EntityNW, self).add_node(n, weight=weight, **attr)
 
    def add_nodes_from(self, nodes, weights):
       """
