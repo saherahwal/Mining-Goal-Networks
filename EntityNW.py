@@ -139,38 +139,53 @@ class EntityNW(networkx.classes.DiGraph):
                self.remove_edge(u,v)
                raise networkx.NetworkXUnfeasible("Graph contains a cycle! DAG is acyclic! Edge " + u + "-" + v +" cannot be added.")
 
-   def lcs(self, node1, node2): ## find least common subsumer
-      """ Find and return the least common subsumer node"""
-      ## run_check: helper function for finding the lcs
-      def run_check(set1, set2):
-         for e1 in set1:
-            for e2 in set2:
+  
+              
+   def lcs(self, node1, node2):
+
+      def get_common(set1, set2):
+         totalList1 = set1[0] + set1[1]
+         totalList2 = set2[0] + set2[1]
+         for e1 in totalList1:
+            for e2 in totalList2:
                if e1 == e2:
                   return e1
          return None
 
-      ##  combine predecessor keys
-      def combine_preds(my_set):
-         combined_list = []
-         for e in my_set:
-            combined_list += self.pred[e].keys()
-         return combined_list
-              
-      
-      ## make node1 and node2 a list of nodes for base case.
-      if (type(node1) and type(node2))!= list:
-         node1 = [node1]
-         node2 = [node2]
-         
+      def process_get_pred(my_set):
+         pred_list = []
+         for e in my_set[1]:
+            pred_list += self.pred[e].keys()
+         return [my_set[0] + my_set[1], pred_list]
+
+      def get_initial_pred(init_set):
+         s = []
+         for e in init_set:
+            s += self.pred[e].keys()
+         return s
+            
+            
+
+      ## make node1 and node2 a list of nodes for base case for algorithm to work properly
+      if(type(node1) and type(node2))!= list:
+         node1 = [[node1], get_initial_pred(node1)]  ## Make sure this works for multiple nodes
+         node2 = [[node2], get_initial_pred(node2)]  ## make sure this works for multiple nodes as well!
+      ## algorithm actually starts here!
       predecessor_list = (node1, node2)
-      common = run_check(predecessor_list[0], predecessor_list[1])
-      if (common != None):
+      print predecessor_list
+      common = get_common(predecessor_list[0], predecessor_list[1])
+      if(common != None): ## actuatlly found the common subsumer!, reveal it!
          return common
       else:
-         return self.lcs(combine_preds(node1) + node1 ,combine_preds(node2) + node2)         
-       
-       
+         if (node1[1] == [] and node2[1] == []):
+            return None
+         else:
+            return self.lcs(process_get_pred(node1), process_get_pred(node2))
+         
 
+
+      
+      
    def distance_metric(node1, node2):
        """Compute Distance Metric between two nodes in the network"""
        pass
@@ -180,7 +195,12 @@ class EntityNW(networkx.classes.DiGraph):
   
         
 if __name__ == "__main__":
-    
+
+   ## Test 1 
    g =  EntityNW()
-   g.add_node("dog")
+   g.add_edges_from([('a','b'), ('a', 'c'), ('a','r'), ('x', 'c'), ('x', 'i'), ('b', 'd'), ('b', 'c'), ('d', 'f'), ('d', 'g') , ('d', 'e'), ('r', 'h'), ('r', 'i')\
+                     ,('h', 'l'), ('l', 'm'), ('l', 'n'), ('i', 'k'), ('i', 'j')])
+   
+   
+                       
 
