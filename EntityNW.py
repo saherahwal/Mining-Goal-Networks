@@ -168,8 +168,10 @@ class EntityNW(networkx.classes.DiGraph):
 
       ## make node1 and node2 a list of nodes for base case for algorithm to work properly
       if(type(node1) and type(node2))!= list:
-         node1 = [[node1], get_initial_pred(node1)]  ## Make sure this works for multiple nodes
-         node2 = [[node2], get_initial_pred(node2)]  ## make sure this works for multiple nodes as well!
+         node1 = [node1]
+         node2 = [node2]
+         node1 = [node1, get_initial_pred(node1)]  ## Make sure this works for multiple nodes
+         node2 = [node2, get_initial_pred(node2)]  ## make sure this works for multiple nodes as well!
       ## algorithm actually starts here!
       predecessor_list = (node1, node2)
       print predecessor_list
@@ -200,7 +202,12 @@ if __name__ == "__main__":
    g =  EntityNW()
    g.add_edges_from([('a','b'), ('a', 'c'), ('a','r'), ('x', 'c'), ('x', 'i'), ('b', 'd'), ('b', 'c'), ('d', 'f'), ('d', 'g') , ('d', 'e'), ('r', 'h'), ('r', 'i')\
                      ,('h', 'l'), ('l', 'm'), ('l', 'n'), ('i', 'k'), ('i', 'j')])
-   
+
+   ## Test 2
+   net = EntityNW()
+   net.add_edges_from([('entity', 'play'), ('entity', 'run'), ('entity', 'watch'), ('run', 'command'), ('run', 'marathon'), ('run', 'company')\
+                       , ('watch', 'game'), ('game', 'PC game'), ('game', 'board game'), ('play', 'game'), ('play', 'PC game'), ('play', 'sport'), ('sport', 'marathon')\
+                       , ('play', 'music'), ('play', 'instrument'), ('instrument', 'piano'), ('instrument', 'cello'), ('watch', 'sport'),('watch', 'tv'), ('tv', 'sport')])   
    
                        
 
