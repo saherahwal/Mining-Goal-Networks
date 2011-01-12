@@ -188,9 +188,15 @@ class EntityNW(networkx.classes.DiGraph):
 
       
       
-   def distance_metric(node1, node2):
+   def distance_metric(self, node1, node2):
        """Compute Distance Metric between two nodes in the network"""
-       pass
+       mgg_node = self.lcs(node1, node2)
+       mgg_magnitude = self.node[mgg_node]['weight']
+       node1_mag = self.node[node1]['weight']
+       node2_mag = self.node[node2]['weight']
+       return node1_mag + node2_mag - 2*(mgg_magnitude)
+
+   
 
    
 
@@ -198,12 +204,12 @@ class EntityNW(networkx.classes.DiGraph):
         
 if __name__ == "__main__":
 
-   ## Test 1 
+   ## Test 1 for lcs method
    g =  EntityNW()
    g.add_edges_from([('a','b'), ('a', 'c'), ('a','r'), ('x', 'c'), ('x', 'i'), ('b', 'd'), ('b', 'c'), ('d', 'f'), ('d', 'g') , ('d', 'e'), ('r', 'h'), ('r', 'i')\
                      ,('h', 'l'), ('l', 'm'), ('l', 'n'), ('i', 'k'), ('i', 'j')])
 
-   ## Test 2
+   ## Test 2 for lcs method
    net = EntityNW()
    net.add_edges_from([('entity', 'play'), ('entity', 'run'), ('entity', 'watch'), ('run', 'command'), ('run', 'marathon'), ('run', 'company')\
                        , ('watch', 'game'), ('game', 'PC game'), ('game', 'board game'), ('play', 'game'), ('play', 'PC game'), ('play', 'sport'), ('sport', 'marathon')\
