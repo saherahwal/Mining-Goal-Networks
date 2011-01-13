@@ -142,7 +142,7 @@ class EntityNW(networkx.classes.DiGraph):
   
               
    def lcs(self, node1, node2):
-
+      ## helper function: gets the common node, None otherwise.
       def get_common(set1, set2):
          totalList1 = set1[0] + set1[1]
          totalList2 = set2[0] + set2[1]
@@ -151,13 +151,13 @@ class EntityNW(networkx.classes.DiGraph):
                if e1 == e2:
                   return e1
          return None
-
+      ## gets predecessors and processes them
       def process_get_pred(my_set):
          pred_list = []
          for e in my_set[1]:
             pred_list += self.pred[e].keys()
          return [my_set[0] + my_set[1], pred_list]
-
+      ## gets initial predecessors
       def get_initial_pred(init_set):
          s = []
          for e in init_set:
@@ -183,10 +183,8 @@ class EntityNW(networkx.classes.DiGraph):
             return None
          else:
             return self.lcs(process_get_pred(node1), process_get_pred(node2))
-         
-
-
       
+     
       
    def distance_metric(self, node1, node2):
        """Compute Distance Metric between two nodes in the network"""
@@ -195,10 +193,7 @@ class EntityNW(networkx.classes.DiGraph):
        node1_mag = self.node[node1]['weight']
        node2_mag = self.node[node2]['weight']
        return node1_mag + node2_mag - 2*(mgg_magnitude)
-
-   
-
-   
+ 
 
   
         
